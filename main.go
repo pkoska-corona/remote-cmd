@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/ghodss/yaml"
 
 	"golang.org/x/crypto/ssh"
 )
 
-var keypath, passphrase, user, host, command, hostfile string
+var keypath, passphrase, user, host, command, hostfile, help string
 var remotehosts []string
 
 func init() {
@@ -22,11 +23,17 @@ func init() {
 	flag.StringVar(&host, "host", "1.2.3.4", "Specify the remote host for the connection")
 	flag.StringVar(&command, "cmd", "ls -l", "Specify the command to run on the remote host")
 	flag.StringVar(&hostfile, "hostfile", "hostfile.yaml", "Specify the file which contains the ip addresses of the remote hosts")
+	flag.StringVar(&help, "h", "", "Print help message (This message)")
 
 	flag.Parse()
 }
 
 func main() {
+	if (keypath == "") || (passphrase == "") || (user == "") || (host == "") || (command == "") || (help != "") {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+
 	h := &remotehosts
 
 	if hostfile != "" {
