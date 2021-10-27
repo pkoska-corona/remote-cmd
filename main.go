@@ -30,7 +30,7 @@ func main() {
 	h := &remotehosts
 
 	if hostfile != "" {
-		*h = ProcessRemoteIPs(hostfile)
+		*h = ProcessRemoteHostConfig(hostfile)
 		for _, host := range remotehosts {
 			RunRemoteCommand(keypath, passphrase, host, command)
 		}
@@ -51,7 +51,7 @@ func PubKeyAuth(keypath string, passphrase string) ssh.AuthMethod {
 
 }
 
-func ProcessRemoteIPs(hostfile string) []string {
+func ProcessRemoteHostConfig(hostfile string) []string {
 	type IPS struct {
 		Values []string `json:"ips"`
 	}
