@@ -78,13 +78,13 @@ func RunRemoteCommand(keypath string, passphrase string, host string, command st
 
 	client, err := ssh.Dial("tcp", host+":10222", config)
 	if err != nil {
-		Handle(err, "unable to connect")
+		log.Fatal(err)
 	}
 	defer client.Close()
 
 	session, err := client.NewSession()
 	if err != nil {
-		Handle(err, "Failed to create session to remote host")
+		log.Fatal(err)
 	}
 	defer session.Close()
 
@@ -92,7 +92,7 @@ func RunRemoteCommand(keypath string, passphrase string, host string, command st
 	session.Stdout = &b
 
 	if err := session.Run(command); err != nil {
-		Handle(err, "Failed to run command")
+		log.Fatal(err)
 	}
 	fmt.Println(b.String())
 }
