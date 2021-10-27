@@ -46,7 +46,7 @@ func main() {
 	}
 }
 
-func PubKeyAuth(keypath string, passphrase string) ssh.AuthMethod {
+func PubKeyAuth(keypath, passphrase string) ssh.AuthMethod {
 
 	b, err := ioutil.ReadFile(keypath)
 	Handle(err, "Failed to read private key file")
@@ -74,7 +74,7 @@ func ProcessRemoteHostConfig(hostfile string) []string {
 
 }
 
-func RunRemoteCommand(keypath string, passphrase string, host string, command string) {
+func RunRemoteCommand(keypath, passphrase, host, command string) {
 	config := &ssh.ClientConfig{
 		User: user,
 		Auth: []ssh.AuthMethod{
